@@ -1,0 +1,60 @@
+-- 
+-- Roll No: 58
+-- Name: Umayya Nahan A P
+-- Program: Assignment-IV
+-- 
+
+
+--
+-- Table structure for table <table_name>
+--
+
+-- ---------create/alter statement commands----------- # This line may be removed in the actual file
+
+--
+-- Dumping data for table <table_name>
+--
+
+-- --------insert/update statement commands----------- # This line may be removed in the actcual file
+
+--
+-- SQl Query Statements
+--
+
+
+-- Q1.Retrieve all members with their name and address. (1 Mark)
+select name,address from members;
+
+-- Q2.Retrieve all books (include only accno and title) containing a letter ‘o’ anywhere in the title. (1 Mark)
+select accno,title from books where title like '%o%';
+
+-- Q3.Retrieve books (include all attributes) that are currently available for lending. (1 Mark)
+select * from books where availability='yes' and type='lending';
+
+-- Q4.Retrieve all books with their title, author, and corresponding publisher name. (2 Marks)
+select title,author,name from books join publishers on books.publisherid=publishers.publisherid;
+
+-- Q5.Retrieve members who issued books with their name, address, and corresponding book titles in ascending order of title. (2 Marks)
+
+-- Q6.Retrieve the name, total number of books (rename it as TotalBooksIssued) issued by each member. (2 Marks)
+select name,count(issues.accno) as TotalBooksIssued from members left join issues on members.memberid=issues.memberid group by members.name;
+
+-- Q7.Retrieve members (include name, address) who have not issued any books. (2 Marks)
+select name,address from members where memberid not in(select memberid from issues);
+
+-- Q8.Retrieve all books with their title, author, and the total number of time (rename it as NumberofIssue) each book has been issued. (3 Marks)
+select title,author,count(issues.accno) as NumberofIssue from books left join issues on books.accno=issues.accno group by books.title;
+
+-- Q9.Retrieve members (include name, TotalBooksIssued) who have issued more than 2 books. (3 Marks)
+
+-- Q10.Retrieve books (include title, author) that have not been issued yet. (3 Marks)
+select title,author from books where accno not in(select accno from issues);
+
+-- Q11.Retrieve the top 5 most issued books (include title, author, TotalIssued). (5 Marks - Not graded)
+
+-- Q12.Retrieve the most issued books (include title, author, TotalIssued). (5 Marks - Not graded)
+
+-- Q13.Retrieve members (include name, issuedate) who issued books before 2023-06-01 and have not returned them yet. (5 Marks - Not graded)
+
+
+

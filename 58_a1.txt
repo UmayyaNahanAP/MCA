@@ -1,0 +1,38 @@
+-- 
+-- Roll No: 58
+-- Name: Umayya Nahan A P
+-- Program: Assignment-I
+-- 
+
+
+--
+-- Table structure for table categories
+--
+
+create table categories( category_id int primary key, name varchar(50) not null, parent_category int,constraint categories_fk_parent_category foreign key(parent_category) references categories(category_id));
+
+--
+-- Table structure for table products
+--
+
+create table products( product_id int primary key, name varchar(50) not null unique, price float(6,2) default 100, category_id int, quantity int, constraint products_fk_category_id foreign key(category_id) references categories(category_id));
+
+alter table products add constraint products_check_price check (price>0 and price<3000);
+
+--
+-- Dumping data for table categories
+--
+
+insert into categories(category_id,name,parent_category) values(1,'Phones',NULL),(2,'Laptops',NULL),(3,'Consoles',NULL),(4,'iPhone',1),(5,'Windows',2),(6,'Xbox',3);
+
+--
+-- Dumping data for table products
+--
+
+insert into products(product_id,name,price,category_id,quantity) values(1,'iPhone 12',999.99,4,10),(2,'MacBook Pro',1999.99,2,5),(3,'Dell XPS 15',1599.99,5,8),(4,'Sony PlayStation 5',499.99,3,20),(5,'Nintendo',149.99,3,12);
+insert into products(product_id,name,price,category_id) values(6,'Xbox Series X',499.99,6);
+
+--
+-- SQl Query Statements
+--
+

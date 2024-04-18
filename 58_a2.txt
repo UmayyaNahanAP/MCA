@@ -1,0 +1,75 @@
+-- 
+-- Roll No: 58
+-- Name: Umayya Nahan A P
+-- Program: Assignment-II
+-- 
+
+
+--
+-- Table structure for table categories
+--
+
+create table categories( category_id int primary key, name varchar(50) not null, parent_category int,constraint categories_fk_parent_category foreign key(parent_category) references categories(category_id));
+
+--
+-- Table structure for table products
+--
+
+create table products( product_id int primary key, name varchar(50) not null unique, price float(6,2) default 100, category_id int, quantity int, constraint products_fk_category_id foreign key(category_id) references categories(category_id));
+
+alter table products add constraint products_check_price check (price>0 and price<3000);
+
+--
+-- Dumping data for table categories
+--
+
+insert into categories(category_id,name,parent_category) values(1,'Phones',NULL),(2,'Laptops',NULL),(3,'Consoles',NULL),(4,'iPhone',1),(5,'Windows',2),(6,'Xbox',3);
+
+--
+-- Dumping data for table products
+--
+
+insert into products(product_id,name,price,category_id,quantity) values(1,'iPhone 12',999.99,4,10),(2,'MacBook Pro',1999.99,2,5),(3,'Dell XPS 15',1599.99,5,8),(4,'Sony PlayStation 5',499.99,3,20),(5,'Nintendo',149.99,3,12);
+insert into products(product_id,name,price,category_id) values(6,'Xbox Series X',499.99,6);
+
+--
+-- SQl Query Statements
+--
+
+-- Q1.List all products and its name.
+select product_id,name from products;
+
+-- Q2.List all categories.
+select * from categories;
+
+-- Q3.List all categories for those do not have a parent category.
+select * from categories where parent_category is null;
+
+-- Q4.List all products where the name starts with the letter ‘M’ (include product_id, product name).
+select product_id,name from products where name like %s;
+
+-- Q5.List all products that contain a letter ‘o’ anywhere in the name (include product_id, product name)
+select product_id,name from products where name like %s;
+
+-- Q6.List the products that do not have a parent category (include product_id, product name)
+select product_id,products.name from products,categories where categories.category_id=products.category_id and categories.parent_category is NULL;
+
+-- Q7.Retrieve all products and their corresponding categories (include only product_id, product name, category name)
+select product_id,products.name,categories.name from products,categories where categories.category_id=products.category_id;
+
+-- Q8.List the products with a price greater than rupees 1000 order by its name in descending order. (include product_id, product name, price)
+select product_id,name,price from products where price>%s order by name desc;
+
+-- Q9.List the products that do not have a parent category (include product_id, product name).
+select product_id,products.name from products,categories where categories.category_id=products.category_id and categories.parent_category is NULL;
+
+-- Q10.Get the names of all products in the ‘Consoles’ category order by its name in descending order (include only product name).
+select products.name from products,categories where categories.category_id=products.category_id and categories.name=%s order by name desc;
+
+-- Q11.Retrieve the total count (give name ‘total_count’ for this column) of products in each category (include category_id, category name, total_count).
+select categories.category_id,categories.name,count(products.product_id) as total_count from products,categories where categories.category_id=products.category_id group by categories.category_id;
+
+-- Q12.Display category name and total quantities (give name ‘total_qty’ for this column) of products in each category whose total quantity is greater than 15.
+select categories.name,sum(products.quantity) as total_qty from products,categories where categories.category_id=products.category_id group by categories.category_id having sum(products.quantity)>%s;
+
+
